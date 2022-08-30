@@ -1,5 +1,24 @@
 version: '3'
 services:
+  backend:
+    volumes:
+      - ./:/dfa
+    build:
+      context: .
+    restart: always
+    tty: true
+    env_file:
+      - .env
+    depends_on:
+      - db
+#    links:
+#      - db:5432
+    networks:
+      - my-network
+    ports:
+      - "8000:8000"
+
+
   db:
     image: kartoza/postgis
     environment:
@@ -9,4 +28,9 @@ services:
       - POSTGRES_MULTIPLE_EXTENSIONS=citext,
       - TZ=Europe/Moscow
     ports:
-       - "5430:5432"
+       - "5432:5432"
+    networks:
+      - my-network
+
+networks:
+  my-network:
