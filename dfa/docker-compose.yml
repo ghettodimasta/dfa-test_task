@@ -1,0 +1,12 @@
+version: '3'
+services:
+  db:
+    image: kartoza/postgis
+    environment:
+      - POSTGRES_DB=dfa_test_task
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_EXTENSIONS=citext,
+      - TZ=Europe/Moscow
+    ports:
+       - "5430:5432"
