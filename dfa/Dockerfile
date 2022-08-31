@@ -12,4 +12,3 @@ RUN apt-get install libgdal-dev -y
 RUN python3 -m pip install pipenv
 RUN pipenv install
 ENV PYTHONPATH "/dfa"
-CMD ["pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -1,4 +1,4 @@
-version: '3'
+version: '2.3'
 services:
   backend:
     volumes:
@@ -10,7 +10,9 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    command: ["pipenv", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
 #    links:
 #      - db:5432
     networks:
@@ -21,6 +23,7 @@ services:
 
   db:
     image: kartoza/postgis
+    restart: always
     environment:
       - POSTGRES_DB=dfa_test_task
       - POSTGRES_USER=postgres
@@ -31,6 +34,11 @@ services:
        - "5432:5432"
     networks:
       - my-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   my-network:
